@@ -176,4 +176,31 @@
     border-radius :50%;
     background-color :#eee4;
     border: none;
+    font-family:monospace;
+    font-weight:bold;
+    font-size:large;
+    transition:0.5s;
+}
+.arrows button:hover{
+    background-color:#eee;
+    color:#555;
+}
+.corousel .list .item:nth-child(1){
+    z-index:1;
+}
+.corousel .list .item:nth-child(1) .author,
+.corousel .list .item:nth-child(1) .title,
+.corousel .list .item:nth-child(1)  .topic,
+.corousel .list .item:nth-child(1)  .des,
+.corousel .list .item:nth-child(1)  .buttons{
+    transform :translateY(50px);
+    filter:blur(20px);
+    opacity:0;
+    animation:showContent 0.5s 0.5s linear 1 forwards;
+}
+@keyframes showContent {
+    to{
+        opacity:1;
+        filter:blur(10px);
+    }
 }

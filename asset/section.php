@@ -53,21 +53,21 @@
         <!-- thumbnail -->
         <div class="thumbnail">
             <div class="item">
-                <img src="images/comedy/central-intelligents-desktop.jpg" alt="central intelligences"></img>
+                <img src="images/comedy/central-intelligents-desktop.jpg" alt="central intelligences">
                 <div class="title">COMEDY</div>
             </div>
             <div class="des"></div>
         </div>
         <div class="thumbnail">
             <div class="item">
-                <img src="images/ghostbuster-frozen-empire-desktop.jpg" alt="ghostbusher"></img>
+                <img src="images/fantasy/ghostbuster-frozen-empire-desktop.jpg" alt="ghostbusher">
                 <div class="title">GHOSTBUSTER : FROZEN EMPIRE</div>
             </div>
             <div class="des"></div>
         </div>
         <div class="thumbnail">
             <div class="item">
-                <img src="images/superheros/wonderwomandesktop.jpg" alt="wonder woman"></img>
+                <img src="images/superheros/wonderwomandesktop.jpg" alt="wonder woman">
                 <div class="title">WONDER WOMAN 1984</div>
             </div>
             <div class="des"></div>
