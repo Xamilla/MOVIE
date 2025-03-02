@@ -1,206 +1,116 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Home Section */
-#home {
-    position: relative; /* Use relative positioning */
-    top: 80px; /* Adjust top position */
-    border: 2px solid yellow; /* Border color */
-    width: 100%; /* Full width */
-    height: 100vh; /* Full viewport height */
-    padding: 20px; /* Padding */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
+/* General Section Styles */
+section {
+    position: relative;
+    top: 80px;
+    width: 100%;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-/* New Release Section */
-#newrelease {
-    position: relative; /* Use relative positioning */
-    top: 80px; /* Adjust top position */
-    border: 2px solid rgb(0, 131, 238); /* Border color */
-    width: 100%; /* Full width */
-    height: 100vh; /* Full viewport height */
-    padding: 20px; /* Padding */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
-}
+/* Unique Borders for Sections */
+#home { border: 2px solid yellow; }
+#newrelease, #toprated, #comingsoon, #aboutus { border: 2px solid rgb(0, 131, 238); }
 
-/* Top Rated Section */
-#toprated {
-    position: relative; /* Use relative positioning */
-    top: 80px; /* Adjust top position */
-    border: 2px solid rgb(0, 131, 238); /* Border color */
-    width: 100%; /* Full width */
-    height: 100vh; /* Full viewport height */
-    padding: 20px; /* Padding */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
-}
-
-/* Coming Soon Section */
-#comingsoon {
-    position: relative; /* Use relative positioning */
-    top: 80px; /* Adjust top position */
-    border: 2px solid rgb(0, 131, 238); /* Border color */
-    width: 100%; /* Full width */
-    height: 100vh; /* Full viewport height */
-    padding: 20px; /* Padding */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
-}
-
-/* About Us Section */
-#aboutus {
-    position: relative; /* Use relative positioning */
-    top: 80px; /* Adjust top position */
-    border: 2px solid rgb(0, 131, 238); /* Border color */
-    width: 100%; /* Full width */
-    height: 100vh; /* Full viewport height */
-    padding: 20px; /* Padding */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
-}
-
-/* Carousel */
+/* Carousel Styles */
 .carousel {
-    width: 100%; /* Full width */
-    height: 100vh; /* Full viewport height */
-    overflow: hidden; /* Hide overflow */
-    margin-top: -50px; /* Adjust margin */
-}
-
-/* Carousel Item */
-.carousel .list .item {
-    position: absolute; /* Absolute positioning */
-    inset: 0 0 0 0; /* Full size */
-}
-
-/* Carousel Item Image */
-.carousel .list .item img {
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    object-fit: cover; /* Cover the container */
-}
-
-/* Carousel Item Content */
-.carousel .list .item .content {
-    position: absolute; /* Absolute positioning */
-    top: 20%; /* Adjust top position */
-    width: 1148px; /* Set width */
-    max-width: 80%; /* Set max width */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center horizontally */
-    padding-right: 30%; /* Adjust padding */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
-    color: #fff; /* Text color */
-    text-shadow: 0 5px 10px #0004; /* Text shadow */
-}
-
-/* Carousel Item Content Author */
-.carousel .list .item .content .author {
-    font-weight: bold; /* Bold text */
-    letter-spacing: 10px; /* Letter spacing */
-}
-
-/* Carousel Item Content Topic */
-.carousel .list .item .content .topic {
-    font-weight: bold; /* Bold text */
-    font-size: 5rem; /* Font size */
-    line-height: 1.3rem; /* Line height */
-    color: rgb(255, 140, 9); /* Text color */
-}
-
-/* Carousel Item Content Buttons */
-.carousel .list .item .content .buttons {
-    display: grid; /* Grid layout */
-    grid-template-columns: repeat(2, 130px); /* Two columns */
-    grid-template-rows: 48px; /* One row */
-    gap: 5px; /* Gap between items */
-    margin-top: 20px; /* Margin top */
-}
-
-/* Carousel Item Content Button */
-.carousel .list .item .content button {
-    border: none; /* No border */
-    background-color: #fff; /* Background color */
-    letter-spacing: 3px; /* Letter spacing */
-    font-family: 'Poppins', sans-serif; /* Font family */
-    font-weight: 500; /* Font weight */
-}
-
-/* Carousel Item Content Button (Second Child) */
-.carousel .list .item .content button:nth-child(2) {
-    background-color: transparent; /* Transparent background */
-    color: #eee; /* Text color */
-    border: 1px solid #eee; /* Border */
-}
-
-/* Thumbnail */
-.thumbnail {
-    position: absolute;
-    bottom:50px;
-    left:50%;
-    width: max-content;
-    z-index: 100;
-    display: flex;
-    gap:20px;
-}
-.thumbnail .item {
-    width:150px;
-    height:220px;
-    flex-shrink:0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
     position: relative;
 }
-.thumbnail .item img{
+
+.carousel .list .item {
+    position: absolute;
+    inset: 0;
+}
+
+.carousel .list .item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius:20px;
 }
-.thumbnail .item .content{
-    position:absulute;
-    bottom:10px;
-    left:10px;
-    right:10px;
+
+/* Content Styling */
+.carousel .list .item .content {
+    position: absolute;
+    top: 20%;
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    text-shadow: 0 5px 10px #0004;
 }
-.thumbnail .item .content .title{
-    font-weight:bold;
+
+/* Animations */
+.carousel .list .item:nth-child(1) .author,
+.carousel .list .item:nth-child(1) .title,
+.carousel .list .item:nth-child(1) .topic,
+.carousel .list .item:nth-child(1) .des,
+.carousel .list .item:nth-child(1) .buttons {
+    transform: translateY(50px);
+    filter: blur(20px);
+    opacity: 0;
+    animation: showContent 0.5s linear forwards;
 }
-.arrows{
-    position:absolute;
-    top:80%;
-    right:52%;
-    width:300px;
-    max-width:30%;
-    display:flex; 
-    gap:10px;
-    align-items:center;
-}
-.arrows button{
-    width: 48px;
-    height:40px;
-    border-radius :50%;
-    background-color :#eee4;
-    border: none;
-    font-family:monospace;
-    font-weight:bold;
-    font-size:large;
-    transition:0.5s;
-}
-.arrows button:hover{
-    background-color:#eee;
-    color:#555;
-}
-.corousel .list .item:nth-child(1){
-    z-index:1;
-}
-.corousel .list .item:nth-child(1) .author,
-.corousel .list .item:nth-child(1) .title,
-.corousel .list .item:nth-child(1)  .topic,
-.corousel .list .item:nth-child(1)  .des,
-.corousel .list .item:nth-child(1)  .buttons{
-    transform :translateY(50px);
-    filter:blur(20px);
-    opacity:0;
-    animation:showContent 0.5s 0.5s linear 1 forwards;
-}
+
 @keyframes showContent {
-    to{
-        opacity:1;
-        filter:blur(10px);
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+    }
+}
+
+/* Animation Delays */
+.carousel .list .item:nth-child(1) .title { animation-delay: 1.2s; }
+.carousel .list .item:nth-child(1) .topic { animation-delay: 1.4s; }
+.carousel .list .item:nth-child(1) .des { animation-delay: 1.6s; }
+.carousel .list .item:nth-child(1) .buttons { animation-delay: 1.8s; }
+
+/* Thumbnails */
+.thumbnail {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    display: flex;
+    gap: 20px;
+    transform: translateX(-50%);
+}
+
+.thumbnail .item {
+    width: 150px;
+    height: 220px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.thumbnail .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* Fixing Animation for Image Expansion */
+.carousel .next .list:nth-child(1) img {
+    width: 150px;
+    height: 220px;
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    border-radius: 20px;
+    animation: showImage 0.5s linear forwards;
+}
+
+@keyframes showImage {
+    to {
+        width: 100%;
+        height: 100%;
+        left: 0;
+        bottom: 0;
+        border-radius: 0;
     }
 }
