@@ -1,0 +1,62 @@
+body {
+    background-color: #2A2A2A; /* Background color */
+    color: #F7F4E9; /* Text color */
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: 200px;
+}
+
+.login-container {
+    background-color: #191919; /* Primary color */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-bottom: 200px;
+}
+
+.login-container h1 {
+    color: #F9C80E; /* Accent color */
+    margin-bottom: 20px;
+}
+
+.login-container label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    color: #F7F4E9; /* Text color */
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] ,
+.login-container input[type="captcha"] 
+{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #F9C80E; /* Accent color */
+    border-radius: 5px;
+    background-color: #2A2A2A; /* Background color */
+    color: #F7F4E9; /* Text color */
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #F9C80E; /* Accent color */
+    color: #191919; /* Text button color */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-container button:hover {
+    background-color: #e6b700; /* Slightly darker accent color */
+}

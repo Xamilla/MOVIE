@@ -28,7 +28,7 @@
     color: #F7F4E9;
     padding: 2rem 0;
     width: 100%;
-    margin-top: auto; /* This pushes the footer to the bottom */
+    margin-top: 20px; /* This pushes the footer to the bottom */
   }
   
   .footer-container {
