@@ -32,7 +32,7 @@ body {
     color: #F7F4E9; /* Text color */
 }
 
-.login-container input[type="email"],
+.login-container input[type="username"],
 .login-container input[type="password"] ,
 .login-container input[type="captcha"] 
 {
@@ -60,3 +60,22 @@ body {
 .login-container button:hover {
     background-color: #e6b700; /* Slightly darker accent color */
 }
+.captcha-img{
+    width:100px;
+    height: 30px;
+    vertical-align:middle;
+    cursor:pointer;
+}
+@keyframes vibrate {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(4px) }
+}
+
+.shake {
+    animation: vibrate 0.2s ease-in-out 2;
+    border: 2px solid red !important; /* Highlight in red */
+}
+ 

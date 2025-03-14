@@ -3,7 +3,7 @@
     <div class="carousel">
         <div class="list">
             <div class="item">
-                <img src="images/comedy/dear-santa.jpg" alt="central-intelligents">
+                <img src="images/comedy/dear-santa.jpg" alt="central-intlligents">
                 <div class="content">
                     <div class="author">Bobby Farrelly</div>
                     <div class="title">Dear Santa</div>
@@ -64,8 +64,8 @@
 
         <!-- Navigation arrows -->
         <div class="arrows">
-            <button id="prev">&lt;</button>
-            <button id="next">&gt;</button>
+            <button id="prev" title="back">&lt;</button>
+            <button id="next" title="next">&gt;</button>
         </div>
     </div>
 </section>
@@ -81,7 +81,7 @@
     </div>
 </section>
 
-<section id="toprated">
+<section id="trending">
     <h1>Trending</h1>
     <div class="movie-grid">
         <img src="images/comedy/killer's-game.jpg" alt="Trending Movie 1">
@@ -93,7 +93,7 @@
 </section>
 
 <section id="comingsoon">
-    <h1>Top Rated</h1>
+    <h1>Coming Soon</h1>
     <div class="movie-grid">
         <img src="images/fantasy/legend-of-ochi.jpg" alt="Top Rated 1">
         <img src="images/fantasy/snow-white.jpg" alt="Top Rated 2">
@@ -105,8 +105,8 @@
 
 <!-- this can be optional because  I already put some about as in the footer -->
 <section id="aboutus">
-    <!-- <h1>About Us</h1>
-    <p>Welcome to our movie hub, your go-to destination for the latest and greatest films across all genres. Stay updated with new releases, trending movies, and top-rated films, all in one place!</p> -->
+    <h1>About Us</h1>
+    <p>Welcome to our movie hub, your go-to destination for the latest and greatest films across all genres. Stay updated with new releases, trending movies, and top-rated films, all in one place!</p>
 </section>
 
 <script src="javascript/section.js"></script>

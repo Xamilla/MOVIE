@@ -1,35 +1,61 @@
 <link rel="stylesheet" href="style/genre.css">
 <div class="comedy-container">
-        <h1>Comedy Movies</h1>
-        <div class="movie-grid">
-            <?php
-            // Example data for movies
-            $movies = [
-                ["title" => "Movie 1", "price" => "$10", "author" => "Author 1", "image" => "images/comedy/accepted.jpg", "video" => "videos/comedy/movie1.mp4", "summary" => "Summary of Movie 1"],
-                ["title" => "Movie 2", "price" => "$12", "author" => "Author 2", "image" => "images/comedy/movie2.jpg", "video" => "videos/comedy/movie2.mp4", "summary" => "Summary of Movie 2"],
-                ["title" => "Movie 3", "price" => "$15", "author" => "Author 3", "image" => "images/comedy/movie3.jpg", "video" => "videos/comedy/movie3.mp4", "summary" => "Summary of Movie 3"],
-                ["title" => "Movie 4", "price" => "$8", "author" => "Author 4", "image" => "images/comedy/movie4.jpg", "video" => "videos/comedy/movie4.mp4", "summary" => "Summary of Movie 4"],
-                ["title" => "Movie 5", "price" => "$20", "author" => "Author 5", "image" => "images/comedy/movie5.jpg", "video" => "videos/comedy/movie5.mp4", "summary" => "Summary of Movie 5"],
-                ["title" => "Movie 6", "price" => "$10", "author" => "Author 6", "image" => "images/comedy/movie6.jpg", "video" => "videos/comedy/movie6.mp4", "summary" => "Summary of Movie 6"],
-                ["title" => "Movie 7", "price" => "$12", "author" => "Author 7", "image" => "images/comedy/movie7.jpg", "video" => "videos/comedy/movie7.mp4", "summary" => "Summary of Movie 7"],
-                ["title" => "Movie 8", "price" => "$15", "author" => "Author 8", "image" => "images/comedy/movie8.jpg", "video" => "videos/comedy/movie8.mp4", "summary" => "Summary of Movie 8"],
-                ["title" => "Movie 9", "price" => "$8", "author" => "Author 9", "image" => "images/comedy/movie9.jpg", "video" => "videos/comedy/movie9.mp4", "summary" => "Summary of Movie 9"],
-                ["title" => "Movie 10", "price" => "$20", "author" => "Author 10", "image" => "images/comedy/movie10.jpg", "video" => "videos/comedy/movie10.mp4", "summary" => "Summary of Movie 10"],
-            ];
+    <h1>Comedy Movies</h1>
+    <div class="movie-grid">
+        <?php
+        include 'database/moviesdb.php';
+        $movie_db = new Database();
 
-            foreach ($movies as $movie) {
+        // Fetch movies from the database
+        $sql = "SELECT movie_name, price, movie_director, movie_summary, movie_picture, movie_quantity, duration, released 
+                FROM movies WHERE categories = 'comedy'";
+        $result = $movie_db->dbconnection->query($sql);
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
                 echo '<div class="movie-item">';
-                echo '<div class="movie-image">';
-                echo '<img src="' . $movie["image"] . '" alt="' . $movie["title"] . '">';
-                echo '<video src="' . $movie["video"] . '" muted></video>';
-                echo '<div class="summary">' . $movie["summary"] . '</div>';
-                echo '</div>';
-                echo '<h2>' . $movie["title"] . '</h2>';
-                echo '<p>Price: ' . $movie["price"] . '</p>';
-                echo '<p>Author: ' . $movie["author"] . '</p>';
-                echo '<button>Buy It</button>';
+                echo '    <div class="movie-image">';
+                echo '        <img src="../MOVIE/images/comedy/' . $row["movie_picture"] . '" alt="' . $row["movie_name"] . '">';
+                echo '        <div class="summary" style="display:none;">' . $row["movie_summary"] . '</div>';
+                echo '    </div>';
+                echo '    <h2>' . $row["movie_name"] . '</h2>';
+                echo '    <p class="release-date">Release Date: ' . $row["released"] . '</p>';
+                echo '    <p class="duration">Duration: ' . $row["duration"] . '</p>';
+                echo '    <p class="price">Price: &#8369;' . $row["price"] . '</p>';
+                echo '    <p class="director">Director: ' . $row["movie_director"] . '</p>';
+                echo '    <p class="quantity">Quantity: ' . $row["movie_quantity"] . '</p>';
+                echo '    <button class="buy-btn">Buy It</button>';
                 echo '</div>';
             }
-            ?>
+        } else {
+            echo "<p>No comedy movies available.</p>";
+        }
+
+        $movie_db->dbconnection->close();
+        ?>
+    </div>
+</div>
+
+<!-- Movie Modal -->
+<div id="movieModal" class="movie-modal">
+    <div class="modal-content">
+        <span id="closeModal" class="close-modal">&times;</span>
+        <div class="modal-left">
+            <img id="modalImage" src="" alt="Movie Image">
+        </div>
+        <div class="modal-right">
+            <h2 id="modalTitle"></h2>
+            <p id="modalRelease"></p>
+            <p id="modalDuration"></p>
+            <p id="modalPrice"></p>
+            <p id="modalDirector"></p>
+            <p id="modalQuantity"></p>
+            <div class="modal-summary" id="modalSummary"></div>
+            <div class="modal-buttons">
+                <button>Buy Now</button>
+            </div>
         </div>
     </div>
+</div>
+
+<script src="../javascript/genre.js"></script> <!-- External JavaScript -->
