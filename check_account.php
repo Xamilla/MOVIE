@@ -38,7 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Redirect based on role
             if ($user['role'] === 'admin') {
-                header("Location: admin_dashboard.php"); // Admin page
+                $_SESSION['admin'] = 'yes';
+                header("Location: index.php"); // Admin page
             } else {
                 header("Location: index.php"); // User page
             }

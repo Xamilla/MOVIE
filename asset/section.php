@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="style/section.css">
 <section id="home">
     <div class="carousel">
         <div class="list">
@@ -12,7 +11,7 @@
                         When a young boy mails his Christmas wish list to Santa with one crucial spelling error, a devilish Jack Black arrives to wreak havoc on the holidays. It's up to his fun-loving Aunt, played by Goldie Hawn, to save the day and show him the true meaning of Christmas.
                     </div>
                     <div class="buttons">
-                        <button>WATCH NOW</button>
+                        <a href="?page=comedy"><button>SEE MORE</button></a>
                     </div>
                 </div>
             </div>
@@ -26,7 +25,7 @@
                         The Spengler family returns to the iconic New York City firehouse where the original Ghostbusters have taken ghost-busting to the next level. When the discovery of an ancient artifact unleashes an evil force, Ghostbusters new and old must unite to protect their home and save the world from a second ice age.
                     </div>
                     <div class="buttons">
-                        <button>WATCH NOW</button>
+                        <a href="?page=fantasy"><button>SEE MORE</button></a>
                     </div>
                 </div>
             </div>
@@ -40,7 +39,7 @@
                         Diana Prince lives quietly among mortals in the vibrant, sleek 1980s -- an era of excess driven by the pursuit of having it all. Though she's come into her full powers, she maintains a low profile by curating ancient artifacts, and only performing heroic acts incognito. But soon, Diana will have to muster all of her strength, wisdom and courage as she finds herself squaring off against Maxwell Lord and the Cheetah, a villainess who possesses superhuman strength and agility.
                     </div>
                     <div class="buttons">
-                        <button>WATCH NOW</button>
+                        <a href="?page=superhero"><button>SEE MORE</button></a>
                     </div>
                 </div>
             </div>
@@ -49,7 +48,7 @@
         <!-- Thumbnail navigation -->
         <div class="thumbnail">
             <div class="item">
-                <img src="images/comedy/dear-santa.jpg" alt="central intelligences">
+                <img src="images/comedy/dear-santa.jpg" alt="dear santa">
                 <div class="title">Comedy</div>
             </div>
             <div class="item">
@@ -64,8 +63,8 @@
 
         <!-- Navigation arrows -->
         <div class="arrows">
-            <button id="prev" title="back">&lt;</button>
-            <button id="next" title="next">&gt;</button>
+            <button id="prev" title="back" aria-label="previous slide">&lt;</button>
+            <button id="next" title="next" aria-label="next-slide">&gt;</button>
         </div>
     </div>
 </section>
@@ -105,8 +104,26 @@
 
 <!-- this can be optional because  I already put some about as in the footer -->
 <section id="aboutus">
-    <h1>About Us</h1>
-    <p>Welcome to our movie hub, your go-to destination for the latest and greatest films across all genres. Stay updated with new releases, trending movies, and top-rated films, all in one place!</p>
-</section>
+    <div class="container">
+        <div class="logo">Screen Saga</div>
+    </div>
 
-<script src="javascript/section.js"></script>
+    <div class="container">
+        <h1>About Screen Saga</h1>
+
+        <div class="about-section">
+            <h2>Who We Are</h2>
+            <p>Screen Saga is your ultimate destination for movie reviews, trailers, and entertainment news. Since our launch in 2018, we’ve been dedicated to bringing film enthusiasts the latest insights, in-depth analysis, and exclusive updates from the world of cinema.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Mission</h2>
+            <p>We strive to deliver engaging and insightful content that helps audiences discover the best films across all genres. Whether you’re looking for honest reviews, behind-the-scenes stories, or the latest industry trends, Screen Saga keeps you connected to the magic of movies.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Team</h2>
+            <p>Led by passionate film critics and entertainment writers, our team brings a wealth of industry knowledge and fresh perspectives. From blockbuster hits to hidden gems, we cover it all—ensuring you never miss a must-watch movie.</p>
+
+        </div>
+</section>

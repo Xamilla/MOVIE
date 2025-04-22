@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="style/footer.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-section">
@@ -22,19 +20,20 @@
                 <li><a href="#newrelease">New Release</a></li>
                 <li><a href="#trending">Trending </a></li>
                 <li><a href="#comingsoon">Comming Soon</a></li>
-                <li><a href="?page==comedy">Comedy</a></li>
-                <li><a href="?page==fantasy">Fantasy</a></li>
-                <li><a href="?page == superhero">Super Hero</a></li>
+                <li><a href="?page=comedy">Comedy</a></li>
+                <li><a href="?page=fantasy">Fantasy</a></li>
+                <li><a href="?page=superhero">SuperHero</a></li>
             </ul>
         </div>
 
         <div class="footer-section">
             <h3>Subscribe</h3>
             <p>Get the latest updates on new releases and exclusive content.</p>
-            <div class="newsletter-form">
-                <input type="email" placeholder="Your email address">
-                <a href="#" class="button">Subscribe</a>
-            </div>
+            <form class="newsletter-form" id="subscribeForm">
+                <input type="email" id="emailInput" placeholder="Your email address" required>
+                <button type="submit" class="button">Subscribe</button>
+            </form>
+            <p id="message" style="color: #F9C80E; display: none;">Thank you for subscribing!</p>
         </div>
     </div>
 

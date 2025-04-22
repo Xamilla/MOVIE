@@ -1,32 +1,64 @@
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* General Styles */
-body {
-    font-family: 'Poppins', sans-serif;
-    color: #F7F4E9;
+/* Update for my-name class */
+#desktop-nav{
+    box-shadow: 0 2px 5px rgb(255, 251, 251);
+}
+.my-name {
+    width: 100%;
+    height:40px;;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001; /* Higher than nav's z-index to stay on top */
+    background-color:#2A2A2A;
+    padding: 5px 0;
     margin: 0;
-    padding: 0;
+    /* border-bottom: 1px solid #F7F4E9; Optional: border for separation; */
+    box-shadow: 0 2px 5px rgb(255, 251, 251);
 }
 
-/* Desktop Navigation */
+.my-name h6 {
+    text-align: center;
+    margin: 0;
+    padding: 8px 0;
+    color: #F7F4E9;
+    font-weight: 500;
+}
+
+/* Adjust nav positioning to appear below the fixed my-name */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 50px;
     background: transparent;
+    /* border:10px solid blue; for preperences only  */
     position: fixed;
     width: 100%;
-    top: 0px;
+    top: 40px; /* This should match the total height of your my-name element */
     left: 0;
     z-index: 1000;
+    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgb(255, 251, 251);
 }
+
+/* Additional body padding to prevent content from hiding behind fixed elements */
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #F7F4E9;
+    margin: 0;
+    padding-top: 90px; /* Adjust this based on combined height of name and nav */
+}
+
 .navbar-blur {
     backdrop-filter: blur(20px);
     background-color: rgba(25, 25, 25, 0.7); /* Adjust the color and opacity as needed */
     transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+    box-shadow: 0 2px 5px rgb(255, 251, 251);
 }
+
 .nav-logo img {
     height: 50px;
 }
@@ -36,54 +68,206 @@ nav {
     font-weight: 600;
     color: #F9C80E;
 }
-
+/* Center the nav links */
 .nav-links {
-    list-style: none;
     display: flex;
-    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    flex: 2; /* Adjust flex value to center properly */
+    margin: 0;
     padding: 0;
-    margin-right: 70px;
 }
 
 .nav-links li {
-    display: inline;
+    margin: 0 15px;
 }
 
 .nav-links a {
     text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    /* background-color: rgba(255, 255, 255, 0.1); */
-    color: #F7F4E9;
-    white-space: nowrap;
-    font-weight: 400;
-    transition: color 0.3s ease-in-out;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-    color: #F9C80E;
+    color: #f9c80e; /* Highlight color */
+}
+/* Modal Container */
+.user-info-modals {
+    display: none; /* Hidden by default */
+    position: fixed;
+    justify-content: right;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
 }
 
-/* Hamburger Navigation */
+.user-info-modals.active {
+    display: flex; /* Show modal when active */
+}
+/* Modal Content */
+.modals-content {
+    /* display: flex; */
+    top:-170px;
+    left:800px;
+    justify-content:left;
+    /* float: left; */
+    background-color: #2A2A2A;
+    padding: 30px;
+    border-radius: 20px;
+    color: #F7F4E9;
+    /* text-align: center; */
+    max-width: 290px;
+    width: 70%;
+    position: relative;
+}
+
+/* Avatar inside modal */
+.user-modal-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 2px solid #f9c80e;
+}
+
+/* Avatar placeholder inside modal */
+.modal-avatar {
+    font-size: 30px;
+}
+
+/* Close button */
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* Adjust avatar position on nav */
+.user-avatar {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-avatar img,
+.avatar-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f9c80e;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+}
+.modals-content {
+    animation: fadeInScale 0.3s ease-in-out;
+}
+
+/* Modal styling updates */
+.user-details {
+    text-align: left;
+    margin: 15px 0;
+}
+
+.movie-purchases {
+    margin-top: 20px;
+    border-top: 1px solid #444;
+    padding-top: 15px;
+}
+
+.movie-purchases h3 {
+    color: #f9c80e;
+    margin-bottom: 10px;
+}
+
+.purchase-list {
+    list-style: none;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    margin: 0;
+}
+
+.purchase-list li {
+    padding: 8px 5px;
+    border-bottom: 1px solid #444;
+}
+
+.purchase-list li:last-child {
+    border-bottom: none;
+}
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    background-color: #f9c80e;
+    color: #2A2A2A;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #e5b80a;
+    transform: scale(1.05);
+}
+
+/* Make the modal content scrollable if it gets too tall */
+.modals-content {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Improved Hamburger Menu Styling */
 .hamburger-menu {
     display: none;
 }
 
 .hamburger-icon {
     display: flex;
-    justify-content: flex-start;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    position: absolute;
-    left: 15px;
-    top: 15px;
+    z-index: 2000;
+    width: 40px;
+    height: 40px;
 }
 
 .hamburger-icon span {
-    width: 30px;
-    height: 3px;
-    background-color: #F7F4E9;
-    margin: 5px;
+    width: 25px;
+    height: 2px;
+    background-color: #2A2A2A;
+    margin: 3px 0;
     transition: 0.3s;
 }
 
@@ -99,16 +283,149 @@ nav {
     transform: rotate(-45deg) translate(5px, -5px);
 }
 
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(25, 25, 25, 0.7);
+    backdrop-filter:blur(10px);
+    z-index: 1500;
+    padding: 80px 20px 20px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
 
-/* Responsive Design */
+.mobile-menu.active {
+    display: block;
+    animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.menu-links {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.menu-links li {
+    margin: 15px 0;
+    width: 100%;
+    text-align: right;
+}
+
+.menu-links a {
+    text-decoration: none;
+    color: #F7F4E9;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 10px 0;
+    display: block;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.menu-links a:hover {
+    color: #f9c80e;
+}
+
+.menu-links a:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #f9c80e;
+    bottom: 0;
+    right: 0;
+    transition: width 0.3s ease;
+}
+
+.menu-links a:hover:after {
+    width: 100%;
+}
+
+.mobile-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 2500;
+}
+
+.mobile-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    margin-top: 30px;
+}
+
+.mobile-profile img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.menu-container h2{
+    color:#F7F4E9;
+}
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    .nav-links {
+    nav .nav-links {
         display: none;
     }
+    
     .hamburger-menu {
-        display: flex;
+        display: block;
+        position: fixed;
+        top: 55px;
+        right: 20px;
+        z-index:1500;
     }
-    .menu-links.active {
+    .hamburger-icon span{
+        background-color: #F7F4E9;
+    }
+    
+    nav {
+        justify-content: space-between;
+        padding: 15px 20px;
+    }
+    
+    .logo {
+        font-size: 20px;
+    }
+    
+    /* Adjust header styles for mobile */
+    .my-name {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+    }
+    
+    .my-name h6 {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    /* Body padding adjustments */
+    body {
+        padding-top: 60px;
     }
 }
