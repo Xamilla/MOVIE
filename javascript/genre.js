@@ -1,9 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Debugging: Set isAdminUser globally
-  window.isAdminUser = false;
-  function setAdminUser(isAdmin) {
-    window.isAdminUser = isAdmin;
-  }
+  // Debug the admin status at startup
+  console.log("Initial admin status check:", window.isAdminUser);
 
   // Get existing modal elements
   const movieItems = document.querySelectorAll(".movie-item");
@@ -19,50 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalSummary = document.getElementById("modalSummary");
   const closeModal = document.getElementById("closeModal");
   const modalActionButton = document.getElementById("modalActionButtons");
-
-  // Create quantity overlay if it doesn't exist
-  let quantityOverlay = document.querySelector(".quantity-overlay");
-
-  if (!quantityOverlay) {
-    quantityOverlay = document.createElement("div");
-    quantityOverlay.className = "quantity-overlay";
-    quantityOverlay.innerHTML = `
-      <div class="quantity-popup">
-        <div class="quantity-header">
-          <h3>Select Quantity</h3>
-          <button class="close-quantity">&times;</button>
-        </div>
-        <div class="quantity-content">
-          <p class="movie-title"></p>
-          <div class="quantity-selector-popup">
-            <label for="popup-quantity">Quantity:</label>
-            <select id="popup-quantity">
-              <option value="1">1</option>
-            </select>
-          </div>
-          <div class="quantity-buttons">
-            <button class="confirm-quantity">Confirm Purchase</button>
-            <button class="cancel-quantity">Cancel</button>
-          </div>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(quantityOverlay);
-  }
-
-  // Get overlay elements
-  const closeQuantityBtn = document.querySelector(".close-quantity");
-  const cancelQuantityBtn = document.querySelector(".cancel-quantity");
-  const confirmQuantityBtn = document.querySelector(".confirm-quantity");
-  const popupQuantity = document.getElementById("popup-quantity");
-  const movieTitleEl = document.querySelector(".movie-title");
-
-  // Variables to store current movie data
-  let currentMovieId;
-  let currentForm;
-  let currentMaxQuantity;
-  let isBuyAgain = false;
-  let returnPage = window.location.href; // Store current page for redirection
 
   // Function to setup movie item listeners
   function setupMovieItemListeners() {
@@ -115,11 +68,16 @@ document.addEventListener("DOMContentLoaded", function () {
           : "Not specified";
 
         // Get quantity and properly parse it
+        // Current problematic code
         const quantity = this.querySelector(".Qty-on-hand");
-        const quantityText = quantity ? quantity.innerText : "0";
-        const quantityValue = parseInt(quantityText.replace(/\D/g, ""));
-        modalQuantity.innerText = quantityValue;
-
+        if (quantity && quantity.innerHTML.includes("Out of Stock")) {
+          modalQuantity.innerHTML = '<span class="out-of-stock">Out of Stock</span>';
+        } else if (quantity) {
+          modalQuantity.innerHTML = '<span class="in-stock">' + quantity.innerText.trim() + '</span>';
+        } else {
+          modalQuantity.innerHTML = '<span class="out-of-stock">Out of Stock</span>';
+        }
+        
         // Get summary
         const summary = this.querySelector(".summary");
         modalSummary.innerText =
@@ -130,347 +88,86 @@ document.addEventListener("DOMContentLoaded", function () {
         // Clear previous action buttons
         modalActionButton.innerHTML = "";
 
+        // Log admin status in console for debugging
+        console.log(
+          "Admin check before modal button creation:",
+          window.isAdminUser
+        );
+
         // Check if user is admin and add admin buttons if needed
-        if (typeof window.isAdminUser !== "undefined" && window.isAdminUser) {
+        if (window.isAdminUser === true) {
+          console.log("Admin user detected, creating admin buttons");
+
           const movieId = this.querySelector("input[name='movie_id']")?.value;
 
           if (movieId) {
-            // Create update button
+            // Create update button form
+            const updateForm = document.createElement("form");
+            updateForm.method = "POST";
+            updateForm.action = "?page=update";
+            updateForm.className = "update-form";
+
+            const updateInput = document.createElement("input");
+            updateInput.type = "hidden";
+            updateInput.name = "movie_id";
+            updateInput.value = movieId;
+
             const updateBtn = document.createElement("button");
-            updateBtn.classList.add("update-btn");
-            updateBtn.textContent = "Update";
-            updateBtn.addEventListener("click", function () {
-              const form = document.createElement("form");
-              form.method = "POST";
-              form.action = "../MOVIE/crud/crud.php";
+            updateBtn.type = "submit";
+            updateBtn.className = "modal-update-btn";
+            updateBtn.innerText = "Update";
 
-              const movieIdInput = document.createElement("input");
-              movieIdInput.type = "hidden";
-              movieIdInput.name = "movie_id";
-              movieIdInput.value = movieId;
+            updateForm.appendChild(updateInput);
+            updateForm.appendChild(updateBtn);
 
-              const updateInput = document.createElement("input");
-              updateInput.type = "hidden";
-              updateInput.name = "update";
-              updateInput.value = "1";
+            // Create delete button form
+            const deleteForm = document.createElement("form");
+            deleteForm.method = "POST";
+            deleteForm.action = "?page=delete";
+            deleteForm.className = "delete-form";
 
-              form.appendChild(movieIdInput);
-              form.appendChild(updateInput);
-              document.body.appendChild(form);
-              form.submit();
-            });
+            const deleteIdInput = document.createElement("input");
+            deleteIdInput.type = "hidden";
+            deleteIdInput.name = "movie_id";
+            deleteIdInput.value = movieId;
 
-            // Create delete button
+            const deleteActionInput = document.createElement("input");
+            deleteActionInput.type = "hidden";
+            deleteActionInput.name = "delete";
+            deleteActionInput.value = "true";
+
             const deleteBtn = document.createElement("button");
-            deleteBtn.classList.add("delete-btn");
-            deleteBtn.textContent = "Delete";
-            deleteBtn.addEventListener("click", function () {
-              if (confirm("Are you sure you want to delete this movie?")) {
-                const form = document.createElement("form");
-                form.method = "POST";
-                form.action = "../MOVIE/crud/crud.php";
+            deleteBtn.type = "submit";
+            deleteBtn.className = "modal-delete-btn";
+            deleteBtn.innerText = "Delete";
 
-                const movieIdInput = document.createElement("input");
-                movieIdInput.type = "hidden";
-                movieIdInput.name = "movie_id";
-                movieIdInput.value = movieId;
+            deleteForm.appendChild(deleteIdInput);
+            deleteForm.appendChild(deleteActionInput);
+            deleteForm.appendChild(deleteBtn);
 
-                const deleteInput = document.createElement("input");
-                deleteInput.type = "hidden";
-                deleteInput.name = "delete";
-                deleteInput.value = "1";
-
-                form.appendChild(movieIdInput);
-                form.appendChild(deleteInput);
-                document.body.appendChild(form);
-                form.submit();
-              }
-            });
-
-            // Append buttons to action buttons container
-            modalActionButton.appendChild(updateBtn);
-            modalActionButton.appendChild(deleteBtn);
+            // Append both forms to modal action button area
+            modalActionButton.appendChild(updateForm);
+            modalActionButton.appendChild(deleteForm);
           }
-        } else {
-          // Handle regular user interface
-
-          // Check for various button types in the movie item
-          const watchBtn = this.querySelector(".watch-btn");
-          const buyBtn = this.querySelector(".buy-btn");
-          const loginBtn = this.querySelector(".login-required-btn");
-          const outOfStockBtn = this.querySelector(".out-of-stock-btn");
-          const buyAgainBtn = this.querySelector(".buy-again-btn");
-
-          let actionButtonHTML = "";
-
-          if (watchBtn) {
-            // User is logged in and already purchased this movie
-            const movieId = watchBtn.href.split("=")[1];
-            actionButtonHTML = `<a href="watch.php?movie_id=${movieId}" class="watch-btn">Watch Now</a>`;
-
-            // Add buy again button if available and quantity > 0
-            if (buyAgainBtn && quantityValue > 0) {
-              const movieId = this.querySelector(
-                "input[name='movie_id']"
-              ).value;
-              actionButtonHTML += `<button class="buy-again-btn" data-movie-id="${movieId}" data-movie-name="${
-                this.querySelector("h2").innerText
-              }" data-max-qty="${quantityValue}">Buy Again</button>`;
-            }
-          } else if (buyBtn) {
-            // User is logged in but hasn't purchased this movie
-            const movieId = this.querySelector("input[name='movie_id']").value;
-            actionButtonHTML = `<button class="buy-btn" data-movie-id="${movieId}" data-movie-name="${
-              this.querySelector("h2").innerText
-            }" data-max-qty="${quantityValue}">Buy Now</button>`;
-          } else if (loginBtn) {
-            // User is not logged in
-            actionButtonHTML = `<a href="?page=login" class="login-required-btn">Buy Now</a>`;
-          } else if (outOfStockBtn || quantityValue <= 0) {
-            // Out of stock
-            actionButtonHTML = `<button disabled class="out-of-stock-btn">Out of Stock</button>`;
-          }
-
-          modalActionButton.innerHTML = actionButtonHTML;
         }
-
-        // Attach event listeners to new modal buttons
-        setupModalButtons();
       });
     });
   }
 
-  // Setup event listeners for modal buy buttons
-  function setupModalButtons() {
-    if (modalActionButton) {
-      const buyBtn = modalActionButton.querySelector(".buy-btn");
-      if (buyBtn && !buyBtn.hasAttribute("data-listener")) {
-        buyBtn.setAttribute("data-listener", "true");
-        buyBtn.addEventListener("click", function (e) {
-          e.preventDefault();
-          const movieId = this.getAttribute("data-movie-id");
-          const movieName = this.getAttribute("data-movie-name");
-          const maxQty = parseInt(this.getAttribute("data-max-qty"));
-
-          // Create a temporary form
-          const tempForm = document.createElement("form");
-          tempForm.method = "POST";
-          tempForm.action = "../MOVIE/crud/buy_movie.php";
-          tempForm.innerHTML = `<input type="hidden" name="movie_id" value="${movieId}">`;
-
-          showQuantityOverlay(movieId, movieName, tempForm, maxQty, false);
-          modal.style.display = "none";
-        });
-      }
-
-      const buyAgainBtn = modalActionButton.querySelector(".buy-again-btn");
-      if (buyAgainBtn && !buyAgainBtn.hasAttribute("data-listener")) {
-        buyAgainBtn.setAttribute("data-listener", "true");
-        buyAgainBtn.addEventListener("click", function (e) {
-          e.preventDefault();
-          const movieId = this.getAttribute("data-movie-id");
-          const movieName = this.getAttribute("data-movie-name");
-          const maxQty = parseInt(this.getAttribute("data-max-qty"));
-
-          // Create a temporary form
-          const tempForm = document.createElement("form");
-          tempForm.method = "POST";
-          tempForm.action = "../MOVIE/crud/buy_movie.php";
-          tempForm.innerHTML = `<input type="hidden" name="movie_id" value="${movieId}">`;
-
-          showQuantityOverlay(movieId, movieName, tempForm, maxQty, true);
-          modal.style.display = "none";
-        });
-      }
-    }
-  }
-
-  // Function to setup grid buttons
-  function setupGridButtons() {
-    // For buy now buttons in grid
-    document.querySelectorAll(".movie-item .buy-btn").forEach((btn) => {
-      if (!btn.hasAttribute("data-listener")) {
-        btn.setAttribute("data-listener", "true");
-        btn.addEventListener("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation(); // Stop event from bubbling up to movie-item
-
-          const form = this.closest("form");
-          const movieId = form.querySelector("input[name='movie_id']").value;
-          const movieItem = this.closest(".movie-item");
-          const movieName = movieItem.querySelector("h2").textContent;
-
-          // Extract quantity and properly parse it
-          const quantityEl = movieItem.querySelector(".Qty-on-hand");
-          const quantityText = quantityEl ? quantityEl.textContent : "0";
-          const maxQty = parseInt(quantityText.replace(/\D/g, ""));
-
-          showQuantityOverlay(movieId, movieName, form, maxQty, false);
-        });
-      }
-    });
-
-    // For buy again buttons in grid
-    document.querySelectorAll(".movie-item .buy-again-btn").forEach((btn) => {
-      if (!btn.hasAttribute("data-listener")) {
-        btn.setAttribute("data-listener", "true");
-        btn.addEventListener("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation(); // Stop event from bubbling up to movie-item
-
-          const form = this.closest("form");
-          const movieId = form.querySelector("input[name='movie_id']").value;
-          const movieItem = this.closest(".movie-item");
-          const movieName = movieItem.querySelector("h2").textContent;
-
-          // Extract quantity and properly parse it
-          const quantityEl = movieItem.querySelector(".Qty-on-hand");
-          const quantityText = quantityEl ? quantityEl.textContent : "0";
-          const maxQty = parseInt(quantityText.replace(/\D/g, ""));
-
-          showQuantityOverlay(movieId, movieName, form, maxQty, true);
-        });
-      }
-    });
-  }
-
-  // Function to show quantity overlay
-  function showQuantityOverlay(
-    movieId,
-    movieName,
-    form,
-    maxQuantity,
-    buyAgain
-  ) {
-    currentMovieId = movieId;
-    currentForm = form;
-    currentMaxQuantity = Math.min(maxQuantity || 1, 5); // Limit to 5 or max available, default to 1 if maxQuantity is invalid
-    isBuyAgain = buyAgain;
-
-    // Update movie title in popup
-    movieTitleEl.textContent = movieName;
-
-    // Update quantity options
-    popupQuantity.innerHTML = "";
-    for (let i = 1; i <= currentMaxQuantity; i++) {
-      const option = document.createElement("option");
-      option.value = i;
-      option.textContent = i;
-      popupQuantity.appendChild(option);
-    }
-
-    // Show overlay
-    quantityOverlay.classList.add("active");
-
-    // For debugging
-    console.log(
-      "Showing quantity overlay for:",
-      movieName,
-      "Max quantity:",
-      currentMaxQuantity
-    );
-  }
-
-  // Function to close quantity overlay
-  function closeQuantityOverlay() {
-    quantityOverlay.classList.remove("active");
-  }
-
-  // Confirm purchase button click
-  confirmQuantityBtn.addEventListener("click", function () {
-    // Get selected quantity
-    const quantity = popupQuantity.value;
-
-    // Create a new hidden input for quantity if it doesn't exist
-    let quantityInput = currentForm.querySelector("input[name='quantity']");
-    if (!quantityInput) {
-      quantityInput = document.createElement("input");
-      quantityInput.type = "hidden";
-      quantityInput.name = "quantity"; // Changed from 'Qty-on-hand' to 'quantity'
-      currentForm.appendChild(quantityInput);
-    }
-
-    // Set the quantity value
-    quantityInput.value = quantity;
-
-    // Add a hidden input for the return page
-    let returnInput = currentForm.querySelector("input[name='return_page']");
-    if (!returnInput) {
-      returnInput = document.createElement("input");
-      returnInput.type = "hidden";
-      returnInput.name = "return_page";
-      returnInput.value = returnPage; // Use stored return page URL
-      currentForm.appendChild(returnInput);
-    }
-
-    console.log("Submitting form with quantity:", quantity);
-
-    // Submit the form
-    document.body.appendChild(currentForm);
-    currentForm.submit();
-
-    // Close overlay
-    closeQuantityOverlay();
+  // Close modal functionality
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
   });
 
-  // Close overlay event listeners
-  closeQuantityBtn.addEventListener("click", closeQuantityOverlay);
-  cancelQuantityBtn.addEventListener("click", closeQuantityOverlay);
-
-  // Close when clicking outside
-  quantityOverlay.addEventListener("click", function (e) {
-    if (e.target === quantityOverlay) {
-      closeQuantityOverlay();
-    }
-  });
-
-  // Close modal events
-  if (closeModal) {
-    closeModal.addEventListener("click", function () {
-      modal.style.display = "none";
-    });
-  }
-
-  window.addEventListener("click", function (e) {
-    if (e.target === modal) {
-      modal.style.display = "none";
-    }
-  });
-
-  // Auto-hide message elements after a delay (for success/error messages)
-  function setupMessageAutoHide() {
-    const messageElements = document.querySelectorAll(
-      ".success-message, .error-message"
-    );
-
-    messageElements.forEach(function (element) {
-      setTimeout(function () {
-        element.style.opacity = "0";
-        setTimeout(function () {
-          element.style.display = "none";
-        }, 500);
-      }, 5000);
-    });
-  }
-
-  // Initial setup
+  // Setup listeners
   setupMovieItemListeners();
-  setupGridButtons();
-  setupMessageAutoHide();
-
-  // For dynamic content loading (if you use AJAX to load more movies)
-  document.addEventListener("DOMNodeInserted", function (e) {
-    if (e.target.classList && e.target.classList.contains("movie-item")) {
-      setupMovieItemListeners();
-      setupGridButtons();
-    }
-
-    if (
-      e.target.classList &&
-      (e.target.classList.contains("success-message") ||
-        e.target.classList.contains("error-message"))
-    ) {
-      setupMessageAutoHide();
-    }
-  });
 });
+function openDeleteOverlay(movieId, movieName) {
+  document.getElementById("movieToDeleteId").value = movieId;
+  document.getElementById("movieToDeleteName").textContent = movieName;
+  document.getElementById("deleteOverlay").style.display = "flex";
+}
+
+function closeDeleteOverlay() {
+  document.getElementById("deleteOverlay").style.display = "none";
+}

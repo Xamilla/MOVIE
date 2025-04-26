@@ -4,113 +4,173 @@ body {
     font-family: Arial, sans-serif;
     background-color: #2A2A2A;
     color: #F7F4E9;
+    min-height: 100vh;
 }
 
-.update-container {
-    margin-top: 130px;
+.form-container {
+    width: 100%;
+    min-height: 100vh;
     max-width: 100%;
-    padding: 40px;
+    padding: 20px;
     background-color: #191919;
-    color: #F7F4E9;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
     text-align: center;
     color: #F9C80E;
-    margin-bottom: 30px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
-.update-form {
+form {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
 }
 
-.update-form .form-group {
+.form-group {
     display: flex;
     flex-direction: column;
 }
 
-.update-form label {
-    margin-bottom: 8px;
+label {
+    margin-bottom: 5px;
     font-weight: bold;
-    color: #F9C80E;
-    font-size: 16px;
 }
 
-.update-form input[type="text"],
-.update-form input[type="number"],
-.update-form input[type="date"],
-.update-form input[type="file"],
-.update-form select,
-.update-form textarea {
-    padding: 10px;
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea,
+input[type="file"] {
+    padding: 8px;
     background-color: #2A2A2A;
     border: 1px solid #F9C80E;
     color: #F7F4E9;
     border-radius: 4px;
-    font-size: 15px;
-    width: 100%;
-    box-sizing: border-box;
 }
 
-.update-form input[type="file"] {
+input[type="file"] {
     border: none;
 }
 
-.update-form textarea {
-    height: 100px;
+textarea {
+    height: 80px;
     resize: none;
 }
 
-.button-group {
-    grid-column: span 2;
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-start;
-}
-
-.update-btn,
-.cancel-btn {
-    padding: 15px 30px;
-    font-size: 18px;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
-}
-
-.update-btn {
+.submit-btn,
+.cancel-btn-add {
     background-color: #F9C80E;
     color: #191919;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* text-align: center; */
 }
 
-.update-btn:hover {
+.submit-btn:hover {
     background-color: #e5b900;
 }
 
-.cancel-btn {
+.cancel-btn-add {
+    text-align: center;
+    margin-top: 20px;
     background-color: #444;
     color: #F7F4E9;
 }
 
-.cancel-btn:hover {
+.cancel-btn-add:hover {
     background-color: #666;
 }
 
-@media (max-width: 768px) {
-    .update-form {
+.form-group:nth-child(9) {
+    grid-column: span 2;
+}
+
+.form-group:nth-child(10) {
+    grid-column: span 2;
+}
+
+.form-group:last-child {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 992px) {
+    form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    form {
         grid-template-columns: 1fr;
+        width: 95%;
     }
 
-    .button-group {
-        flex-direction: column;
+    .form-group:nth-child(9),
+    .form-group:nth-child(10) {
+        grid-column: 1;
     }
+}
 
-    .update-btn,
-    .cancel-btn {
-        width: 100%;
-    }
+/* Success Modal Overlay */
+.success-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
+
+.success-box {
+    background-color: #F7F4E9;
+    color: #191919;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.success-box h2 {
+    margin-bottom: 1rem;
+}
+.success-box form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.return-btn {
+    text-decoration: none;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.6rem 1.5rem;
+    background-color: #F9C80E;
+    color: #191919;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.return-btn:hover {
+    background-color: #eebd00;
 }

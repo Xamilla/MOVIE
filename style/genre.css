@@ -8,7 +8,7 @@ body {
     padding: 0;
 }
 
-.comedy-container {
+.movie-container {
     margin-top:50px;
     padding: 100px 20px 20px;
     text-align: center;
@@ -104,6 +104,18 @@ body {
     white-space: nowrap;
 }
 
+/* New style for out of stock text in quantity */
+.out-of-stock {
+    color: #FF3B30 !important; /* Important to override other styles */
+    font-weight: bold;
+}
+
+/* Add specific targeting for modal */
+.modal-details .out-of-stock {
+    color: #FF3B30;
+    font-weight: bold;
+}
+
 .action-buttons {
     margin-top: auto;
     width: 100%;
@@ -115,8 +127,50 @@ body {
     gap: 15px;
     width: 100%;
 }
+/* Update Button - Larger Size */
+.update-btn {
+    background-color: #3F8EFC;
+    color: #F7F4E9;
+    padding: 12px 15px;
+    font-size: 14px; /* Larger font size */
+    width: 100%; /* Full width */
+    font-weight: bold;
+    border-radius: 8px; /* Slightly larger border radius */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    text-align: center;
+    border:none;
+}
 
-.update-btn, .delete-btn, .buy-btn, .watch-btn, .buy-again-btn, .login-required-btn {
+.update-btn:hover {
+    background-color: #5aa0ff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(63, 142, 252, 0.3);
+}
+
+/* Delete Button - Smaller Size */
+.delete-btn {
+    background-color: #FF3B30;
+    color: #F7F4E9;
+    padding: 12px 15px; /* Smaller padding */
+    font-size: 14px; /* Smaller font size */
+    width: auto; /* Auto width */
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+}
+
+.delete-btn:hover {
+    background-color: #ff5a52;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(255, 59, 48, 0.3);
+}
+.buy-btn, .watch-btn, .buy-again-btn, .login-required-btn {
     margin-top: auto;
     width: 100%;
     background-color: #F9C80E;
@@ -545,4 +599,59 @@ body {
     text-align: center;
     margin-top: 10px;
     width: 100%;
+}
+/* Add this CSS to match the styling of your container buttons */
+#modalActionButtons form {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+#modalActionButtons .update-form,
+#modalActionButtons .delete-form {
+    width: 100%;
+}
+
+#modalActionButtons button {
+    width: 100%;
+    background-color: #F9C80E;
+    color: #191919;
+    padding: 12px 15px;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+#modalActionButtons .modal-update-btn {
+    background-color: #3F8EFC;
+    color: #F7F4E9;
+}
+
+#modalActionButtons .modal-delete-btn {
+    background-color: #FF3B30;
+    color: #F7F4E9;
+}
+
+#modalActionButtons button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#modalActionButtons .modal-update-btn:hover {
+    background-color: #5aa0ff;
+}
+
+#modalActionButtons .modal-delete-btn:hover {
+    background-color: #ff5a52;
+}
+.action-buttons button,
+.action-buttons a,
+.modal-buttons button {
+  margin-top: 10px;
+  display: block;
 }

@@ -8,9 +8,20 @@ $movie_db = new Database();
 $sql = "SELECT movie_id, movie_name, price, movie_director, movie_summary, movie_picture, movie_quantity, duration, released, cast
         FROM movies WHERE categories = 'comedy'";
 $result = $movie_db->dbconnection->query($sql);
+$update_previous_page = $_SERVER['HTTP_REFERER'] ?? 'index.php';
+
+// Add JavaScript to set admin status
+if (isset($_SESSION['login_in']) && $_SESSION['login_in'] === 'yes') {
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.isAdminUser = " . (isset($_SESSION['role']) && $_SESSION['role'] === 'admin' ? 'true' : 'false') . ";
+            console.log('Admin status:', window.isAdminUser);
+        });
+    </script>";
+}
 ?>
 
-<div class="comedy-container">
+<div class="movie-container">
     <!-- <h1>Comedy Movies</h1> -->
     <div class="movie-grid">
         <?php
@@ -55,7 +66,11 @@ $result = $movie_db->dbconnection->query($sql);
                 echo '<p class="release-date">' . $released . '</p>';
                 echo '<p class="duration">' . $duration . '</p>';
                 echo '<p class="price">&#8369;' . number_format($price, 2, ".", ",") . '</p>';
-                echo '<p class="Qty-on-hand">' . $quantity . '</p>';
+
+                // Updated quantity display - Show "Out of Stock" when quantity is 0
+                $quantityDisplay = $quantity > 0 ? $quantity : '<span class="out-of-stock">Out of Stock</span>';
+                echo '<p class="Qty-on-hand">' . $quantityDisplay . '</p>';
+
                 echo '</div>';
 
                 // Store summary for modal
@@ -66,7 +81,6 @@ $result = $movie_db->dbconnection->query($sql);
                     echo '<div class="action-buttons">';
 
                     // Admin controls
-                    // Admin controls for update and delete buttons
                     if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
                         echo '<div class="admin-controls">';
 
@@ -78,12 +92,8 @@ $result = $movie_db->dbconnection->query($sql);
                         echo '</form>';
 
                         // Delete Button
-                        echo '<form method="POST" action="?page=delete" class="delete-form">';
-                        echo '<input type="hidden" name="movie_id" value="' . $movie_id . '">';
-                        echo '<input type="hidden" name="delete" value="1">';
-                        echo '<button type="submit" class="delete-btn" data-movie-id="' . $movie_id . '" data-movie-name="' . htmlspecialchars($movie_name) . '">Delete</button>';
-                        echo '</form>';
-
+                        // Replace this in your movie container page where you have the delete button
+                        echo '<a href="crud/delete_movie.php?movie_id=' . $movie_id . '" class="delete-btn">Delete</a>';
                         echo '</div>'; // Close admin-controls div
                     } else {
                         // Regular user buttons
@@ -160,7 +170,7 @@ $result = $movie_db->dbconnection->query($sql);
                 <br>
 
                 <p class="Qty-on-hand">Qty on hand</p>
-                <span id="modalQuantity"></span>
+                <span class="out-of-stock" id="modalQuantity"></span>
                 <br>
 
             </div>

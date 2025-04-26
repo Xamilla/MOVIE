@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     error_log("Session CAPTCHA: " . ($_SESSION['captcha'] ?? "Not Set"));
     error_log("User Entered CAPTCHA: " . $captcha);
 
+    $redirect_url = $_POST['redirect_url'] ?? 'index.php';
     // Validate CAPTCHA
     if (!isset($_SESSION['captcha']) || (string)$_SESSION['captcha'] !== (string)$captcha) {
         $_SESSION['error_msg'] = "Invalid CAPTCHA.";
@@ -39,9 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Redirect based on role
             if ($user['role'] === 'admin') {
                 $_SESSION['admin'] = 'yes';
-                header("Location: index.php"); // Admin page
-            } else {
-                header("Location: index.php"); // User page
+                unset($_SESSION['redirect_url']);
+                header("Location:$redirect_url"); // Admin page
+            }else{
+                unset($_SESSION['admin']);
+                header("Location:$redirect_url"); // User page
             }
             exit;
         } else {

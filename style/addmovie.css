@@ -4,26 +4,36 @@ body {
     font-family: Arial, sans-serif;
     background-color: #2A2A2A;
     color: #F7F4E9;
+    min-height: 100vh;
 }
 
 .form-container {
-    /* border: 1px solid yellow; */
-    margin-top: 120px;
+    width: 100%;
+    min-height: 100vh;
     max-width: 100%;
-    padding: 40px;
+    padding: 20px;
     background-color: #191919;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
     text-align: center;
     color: #F9C80E;
-    margin-bottom: 30px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 form {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .form-group {
@@ -36,13 +46,8 @@ label {
     font-weight: bold;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="date"],
-select,
-textarea,
-input[type="file"] {
-    padding: 10px;
+input[type="text"], input[type="number"], input[type="date"], select, textarea, input[type="file"] {
+    padding: 8px;
     background-color: #2A2A2A;
     border: 1px solid #F9C80E;
     color: #F7F4E9;
@@ -54,18 +59,20 @@ input[type="file"] {
 }
 
 textarea {
-    height: 100px;
+    height: 80px;
     resize: none;
 }
 
-.submit-btn {
+.submit-btn,
+.cancel-btn-add {
     background-color: #F9C80E;
     color: #191919;
-    padding: 15px;
+    padding: 10px;
     border: none;
     border-radius: 6px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
+    text-decoration: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -74,20 +81,63 @@ textarea {
     background-color: #e5b900;
 }
 
+.error-message, .success-message {
+    grid-column: 1 / -1;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
 .error-message {
-    grid-column: span 2;
     color: #ff4c4c;
-    font-weight: bold;
+    background-color: rgba(255, 76, 76, 0.1);
+    border: 1px solid #ff4c4c;
 }
 
 .success-message {
-    grid-column: span 2;
     color: #60f777;
-    font-weight: bold;
+    background-color: rgba(96, 247, 119, 0.1);
+    border: 1px solid #60f777;
 }
 
-@media (max-width: 768px) {
+/* Adjust grid layout for specific form fields - using direct selectors for better compatibility */
+.form-group:nth-child(9) {  /* Movie Summary field */
+    grid-column: span 2;
+}
+
+.form-group:nth-child(10) { /* Movie Picture field */
+    grid-column: span 2;
+}
+
+.form-group:last-child {    /* Submit button */
+    grid-column: 1 / -1;
+}
+.cancel-btn-add {
+    margin-top: 20px;;
+    text-align: center;
+    background-color: #444;
+    color: #F7F4E9;
+}
+
+.cancel-btn-add:hover {
+    background-color: #666;
+}
+
+@media (max-width: 992px) {
+    form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
     form {
         grid-template-columns: 1fr;
+        width: 95%;
+    }
+    
+    .form-group:nth-child(9),
+    .form-group:nth-child(10) {
+        grid-column: 1;
     }
 }

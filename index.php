@@ -13,6 +13,7 @@ session_start();
     <link rel="stylesheet" href="style/navbar.css">
     <link rel="stylesheet" href="style/footer.css">
     <link rel="stylesheet" href="style/section.css">
+    <link rel="stylesheet" href="style/signup.css">
     <link rel="stylesheet" href="style/genre.css">
     <link rel="stylesheet" href="style/watch.css">
     <link rel="stylesheet" href="style/notification.css">
@@ -43,11 +44,11 @@ session_start();
             include "notification/error.php";
         } else if ($page == 'addmovie') {
             include "crud/addmovie.php";
-        } else if ($page == 'update'){
+        } else if ($page == 'update') {
             include "crud/update.php";
-        } else if ($page =='delete'){
+        } else if ($page == 'delete') {
             include "crud/delete_movie.php";
-        }else {
+        } else {
             include "asset/section.php";
         }
     } else {

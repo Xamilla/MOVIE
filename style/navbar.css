@@ -34,7 +34,7 @@ nav {
     align-items: center;
     padding: 15px 50px;
     background: transparent;
-    /* border:10px solid blue; for preperences only  */
+    /* border:10px solid blue;  */
     position: fixed;
     width: 100%;
     top: 40px; /* This should match the total height of your my-name element */

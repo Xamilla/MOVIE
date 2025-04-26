@@ -1,11 +1,10 @@
 <link rel="stylesheet" href="style/addmovie.css">
 <?php
-// add_movie.php - Form to add a new movie
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+echo "Debug: Redirect page is set to: " . ($_SESSION['redirect_page_update'] ?? 'not set');
 if (!isset($_SESSION['login_in']) || $_SESSION['login_in'] !== 'yes' || !isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: index.php?page=login&error=unauthorized");
     exit();
@@ -19,6 +18,13 @@ $success_message = '';
 $movie_name = $movie_director = $movie_summary = $duration = $released = $cast = $categories = '';
 $price = $movie_quantity = 0;
 
+if (!isset($_SESSION['redirect_page_update'])) {
+    $add_current = $_SERVER['HTTP_REFERER'] ?? 'index.php';
+    if (!str_contains($add_current, 'page=addmovie')) {
+        $_SESSION['redirect_page_update'] = $add_current;
+    }
+}
+$redirect_page_update = $_SESSION['redirect_page_update'] ?? 'index.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_movie'])) {
     $db = new Database();
 
@@ -100,77 +106,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_movie'])) {
     }
 }
 ?>
-    <div class="form-container">
-        <h1>Add New Movie</h1>
+<div class="form-container">
+    <h1>Add New Movie</h1>
 
-        <?php if (!empty($error_message)): ?>
-            <div class="error-message"><?php echo $error_message; ?></div>
-        <?php endif; ?>
+    <?php if (!empty($error_message)): ?>
+        <div class="error-message"><?php echo $error_message; ?></div>
+    <?php endif; ?>
 
-        <?php if (!empty($success_message)): ?>
-            <div class="success-message"><?php echo $success_message; ?></div>
-        <?php endif; ?>
+    <?php if (!empty($success_message)): ?>
+        <div class="success-message"><?php echo $success_message; ?></div>
+    <?php endif; ?>
 
-        <!-- $categories = ""; i put this bec. the variable categories is undefined -->
-        <form method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="movie_name">Movie Title*</label>
-                <input type="text" id="movie_name" name="movie_name" value="<?php echo htmlspecialchars($movie_name ?? ''); ?>" required>
-            </div>
+    <!-- $categories = ""; i put this bec. the variable categories is undefined -->
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="movie_name">Movie Title*</label>
+            <input type="text" id="movie_name" name="movie_name" value="<?php echo htmlspecialchars($movie_name ?? ''); ?>" required>
+        </div>
 
-            <div class="form-group">
-                <label for="movie_director">Director</label>
-                <input type="text" id="movie_director" name="movie_director" value="<?php echo htmlspecialchars($movie_director ?? ''); ?>">
-            </div>
+        <div class="form-group">
+            <label for="movie_director">Director</label>
+            <input type="text" id="movie_director" name="movie_director" value="<?php echo htmlspecialchars($movie_director ?? ''); ?>">
+        </div>
 
-            <div class="form-group">
-                <label for="cast">Cast</label>
-                <input type="text" id="cast" name="cast" value="<?php echo htmlspecialchars($cast ?? ''); ?>" placeholder="Separate actors with commas">
-            </div>
+        <div class="form-group">
+            <label for="cast">Cast</label>
+            <input type="text" id="cast" name="cast" value="<?php echo htmlspecialchars($cast ?? ''); ?>" placeholder="Separate actors with commas">
+        </div>
 
-            <div class="form-group">
-                <label for="categories">Category*</label>
-                <select id="categories" name="categories" required>
-                    <option value="">Select a category</option>
-                    <option value="comedy" <?php echo ($categories === 'comedy') ? 'selected' : ''; ?>>Comedy</option>
-                    <option value="fantasy" <?php echo ($categories === 'fantasy') ? 'selected' : ''; ?>>Fantasy</option>
-                    <option value="superhero" <?php echo ($categories === 'superhero') ? 'selected' : ''; ?>>Superhero</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="categories">Category*</label>
+            <select id="categories" name="categories" required>
+                <option value="">Select a category</option>
+                <option value="comedy" <?php echo ($categories === 'comedy') ? 'selected' : ''; ?>>Comedy</option>
+                <option value="fantasy" <?php echo ($categories === 'fantasy') ? 'selected' : ''; ?>>Fantasy</option>
+                <option value="superhero" <?php echo ($categories === 'superheros') ? 'selected' : ''; ?>>Superhero</option>
+            </select>
+        </div>
 
-            <div class="form-group">
-                <label for="price">Price (₱)</label>
-                <input type="number" id="price" name="price" step="0.01" min="0" value="<?php echo htmlspecialchars($price ?? 0.00); ?>">
-            </div>
+        <div class="form-group">
+            <label for="price">Price (₱)</label>
+            <input type="number" id="price" name="price" step="0.01" min="0" value="<?php echo htmlspecialchars($price ?? 0.00); ?>">
+        </div>
 
-            <div class="form-group">
-                <label for="movie_quantity">Quantity</label>
-                <input type="number" id="movie_quantity" name="movie_quantity" min="0" value="<?php echo htmlspecialchars($movie_quantity ?? 0); ?>">
-            </div>
+        <div class="form-group">
+            <label for="movie_quantity">Quantity</label>
+            <input type="number" id="movie_quantity" name="movie_quantity" min="0" value="<?php echo htmlspecialchars($movie_quantity ?? 0); ?>">
+        </div>
 
-            <div class="form-group">
-                <label for="duration">Duration</label>
-                <input type="text" id="duration" name="duration" value="<?php echo htmlspecialchars($duration ?? ''); ?>" placeholder="e.g., 2h 15min">
-            </div>
+        <div class="form-group">
+            <label for="duration">Duration</label>
+            <input type="text" id="duration" name="duration" value="<?php echo htmlspecialchars($duration ?? ''); ?>" placeholder="e.g., 2h 15min">
+        </div>
 
-            <div class="form-group">
-                <label for="released">Release Date</label>
-                <input type="text" id="released" name="released" value="<?php echo htmlspecialchars($released ?? ''); ?>" placeholder="e.g., January 15, 2024">
-            </div>
+        <div class="form-group">
+            <label for="released">Release Date</label>
+            <input type="text" id="released" name="released" value="<?php echo htmlspecialchars($released ?? ''); ?>" placeholder="e.g., 2023-12-30">
+        </div>
 
-            <div class="form-group" style="grid-column: span 2;">
-                <label for="movie_summary">Movie Summary</label>
-                <textarea id="movie_summary" name="movie_summary"><?php echo htmlspecialchars($movie_summary ?? ''); ?></textarea>
-            </div>
+        <div class="form-group" style="grid-column: span 2;">
+            <label for="movie_summary">Movie Summary</label>
+            <textarea id="movie_summary" name="movie_summary"><?php echo htmlspecialchars($movie_summary ?? ''); ?></textarea>
+        </div>
 
-            <div class="form-group" style="grid-column: span 2;">
-                <label for="movie_picture">Movie Poster</label>
-                <input type="file" id="movie_picture" name="movie_picture" accept="image/*">
-                <p><small>Leave empty to use default image. Recommended size: 300x450 pixels.</small></p>
-            </div>
+        <div class="form-group" style="grid-column: span 2;">
+            <label for="movie_picture">Movie Poster</label>
+            <input type="file" id="movie_picture" name="movie_picture" accept="image/*">
+            <p><small>Leave empty to use default image. Recommended size: 300x450 pixels.</small></p>
+        </div>
 
-            <div class="form-group" style="grid-column: span 2;">
-                <button type="submit" name="add_movie" class="submit-btn">Add Movie</button>
-            </div>
-        </form>
-    </div>
+        <div class="form-group">
+            <button type="submit" name="add_movie" class="submit-btn">Add Movie</button>
+            <a href="<?php echo htmlspecialchars($redirect_page_update) ?>" class="cancel-btn-add">Return</a>
+        </div>
+    </form>
+</div>

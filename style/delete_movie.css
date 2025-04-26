@@ -1,57 +1,72 @@
-/* Overlay */
-.modal-overlay {
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none; /* default */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.overlay-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    max-width: 500px;
+    width: 100%;
+}
+
+.overlay-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.confirm-delete-btn {
+    background-color: #F44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.cancel-delete-btn {
+    background-color: #F9C80E;
+    color: #191919;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-decoration:none;
+}
+
+.error-message {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(25, 25, 25, 0.8);
+    background: rgba(25, 25, 25, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 999;
+    z-index: 9999;
 }
 
-/* Delete container */
-.delete-container {
+.error-message p {
     background-color: #2A2A2A;
-    padding: 2rem;
+    padding: 30px;
     border-radius: 20px;
-    width: 90%;
-    max-width: 500px;
     color: #F7F4E9;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
     text-align: center;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Button styles */
-.delete-btn,
-.cancel-btn {
-    padding: 0.7rem 1.5rem;
-    border: none;
-    border-radius: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    margin: 1rem 0.5rem 0 0.5rem;
-    font-size: 1rem;
-}
-
-/* Confirm Delete button */
-.delete-btn {
-    background-color: #F9C80E;
-    color: #191919;
-}
-
-/* Cancel button */
-.cancel-btn {
-    background-color: #444;
-    color: #F7F4E9;
-}
-
-/* Animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+    margin-bottom: 20px;
 }
