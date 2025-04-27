@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
           : "Not specified";
 
         // Get quantity and properly parse it
-        // Current problematic code
         const quantity = this.querySelector(".Qty-on-hand");
         if (quantity && quantity.innerHTML.includes("Out of Stock")) {
           modalQuantity.innerHTML = '<span class="out-of-stock">Out of Stock</span>';
@@ -149,6 +148,86 @@ document.addEventListener("DOMContentLoaded", function () {
             modalActionButton.appendChild(updateForm);
             modalActionButton.appendChild(deleteForm);
           }
+        } 
+        // If not admin, add appropriate user buttons
+        else {
+          console.log("Regular user detected, creating user buttons");
+          
+          // Get the original button elements that we can clone their functionality
+          const originalBuyBtn = this.querySelector(".buy-btn");
+          const originalWatchBtn = this.querySelector(".watch-btn");
+          const originalBuyAgainBtn = this.querySelector(".buy-again-btn");
+          const outOfStockBtn = this.querySelector(".out-of-stock-btn");
+          const movieId = this.querySelector("input[name='movie_id']")?.value;
+          
+          // Handle different button scenarios
+          if (originalWatchBtn) {
+            // User already purchased, show Watch Now button
+            const watchBtn = document.createElement("a");
+            watchBtn.href = "watch.php?movie_id=" + movieId;
+            watchBtn.className = "watch-btn";
+            watchBtn.innerText = "Watch Now";
+            modalActionButton.appendChild(watchBtn);
+            
+            // If quantity is available, also show Buy Again button
+            if (!modalQuantity.innerHTML.includes("Out of Stock")) {
+              // Create Buy Again form
+              const buyAgainForm = document.createElement("form");
+              buyAgainForm.method = "POST";
+              buyAgainForm.action = "../MOVIE/crud/buy_movie.php";
+              buyAgainForm.className = "buy-again-form";
+              
+              const buyAgainInput = document.createElement("input");
+              buyAgainInput.type = "hidden";
+              buyAgainInput.name = "movie_id";
+              buyAgainInput.value = movieId;
+              
+              const buyAgainBtn = document.createElement("button");
+              buyAgainBtn.type = "submit";
+              buyAgainBtn.className = "buy-again-btn";
+              buyAgainBtn.innerText = "Buy Again";
+              
+              buyAgainForm.appendChild(buyAgainInput);
+              buyAgainForm.appendChild(buyAgainBtn);
+              modalActionButton.appendChild(buyAgainForm);
+            }
+          } 
+          else if (originalBuyBtn) {
+            // First-time purchase, show Buy Now button if quantity is available
+            const buyForm = document.createElement("form");
+            buyForm.method = "POST";
+            buyForm.action = "../MOVIE/crud/buy_movie.php";
+            
+            const buyIdInput = document.createElement("input");
+            buyIdInput.type = "hidden";
+            buyIdInput.name = "movie_id";
+            buyIdInput.value = movieId;
+            
+            const buyBtn = document.createElement("button");
+            buyBtn.type = "submit";
+            buyBtn.className = "buy-btn";
+            buyBtn.innerText = "Buy Now";
+            
+            buyForm.appendChild(buyIdInput);
+            buyForm.appendChild(buyBtn);
+            modalActionButton.appendChild(buyForm);
+          }
+          else if (outOfStockBtn || modalQuantity.innerHTML.includes("Out of Stock")) {
+            // Out of stock scenario
+            const outStockBtn = document.createElement("button");
+            outStockBtn.disabled = true;
+            outStockBtn.className = "out-of-stock-btn";
+            outStockBtn.innerText = "Out of Stock";
+            modalActionButton.appendChild(outStockBtn);
+          }
+          // Login required scenario (if user is not logged in)
+          else if (this.querySelector(".login-required-btn")) {
+            const loginBtn = document.createElement("a");
+            loginBtn.href = "?page=login";
+            loginBtn.className = "login-required-btn";
+            loginBtn.innerText = "Buy Now";
+            modalActionButton.appendChild(loginBtn);
+          }
         }
       });
     });
@@ -162,6 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Setup listeners
   setupMovieItemListeners();
 });
+
 function openDeleteOverlay(movieId, movieName) {
   document.getElementById("movieToDeleteId").value = movieId;
   document.getElementById("movieToDeleteName").textContent = movieName;

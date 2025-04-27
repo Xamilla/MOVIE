@@ -92,7 +92,6 @@ if (isset($_SESSION['login_in']) && $_SESSION['login_in'] === 'yes') {
                         echo '</form>';
 
                         // Delete Button
-                        // Replace this in your movie container page where you have the delete button
                         echo '<a href="crud/delete_movie.php?movie_id=' . $movie_id . '" class="delete-btn">Delete</a>';
                         echo '</div>'; // Close admin-controls div
                     } else {
@@ -107,25 +106,30 @@ if (isset($_SESSION['login_in']) && $_SESSION['login_in'] === 'yes') {
                                 echo '<input type="hidden" name="movie_id" value="' . $movie_id . '">';
                                 echo '<button type="submit" class="buy-again-btn" data-movie-id="' . $movie_id . '" data-movie-name="' . htmlspecialchars($movie_name) . '" data-max-qty= "' . $quantity . '">Buy Again</button>';
                                 echo '</form>';
+                            } else {
+                                // Show Out of Stock button instead of Buy Again when quantity is 0
+                                echo '<button disabled class="out-of-stock-btn">Out of Stock</button>';
                             }
                         } elseif ($quantity > 0) {
                             // First time purchase with Buy button
-                            // For Buy button
                             echo '<form method="POST" action="../MOVIE/crud/buy_movie.php">';
                             echo '<input type="hidden" name="movie_id" value="' . $movie_id . '">';
                             echo '<button type="submit" class="buy-btn" data-movie-id="' . $movie_id . '" data-movie-name="' . htmlspecialchars($movie_name) . '" data-max-qty="' . $quantity . '">Buy Now</button>';
                             echo '</form>';
-
-                            // Similarly for other buttons
                         } else {
+                            // Out of stock button for non-purchased movies
                             echo '<button disabled class="out-of-stock-btn">Out of Stock</button>';
                         }
                     }
 
                     echo '</div>'; // Close action-buttons div
                 } else {
-                    // User not logged in
-                    echo '<a href="?page=login" class="login-required-btn">Buy Now</a>';
+                    // User not logged in - show login button or out of stock notice
+                    if ($quantity > 0) {
+                        echo '<a href="?page=login" class="login-required-btn">Buy Now</a>';
+                    } else {
+                        echo '<button disabled class="out-of-stock-btn">Out of Stock</button>';
+                    }
                 }
 
                 echo '</div>'; // Close movie-item
