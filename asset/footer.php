@@ -17,9 +17,10 @@
             <h3>Explore</h3>
             <ul>
                 <li><a href="?page==home">Home</a></li>
-                <li><a href="#newrelease">New Release</a></li>
-                <li><a href="#trending">Trending </a></li>
-                <li><a href="#comingsoon">Comming Soon</a></li>
+                <li><a href="#aboutus">About us</a></li>
+                <!-- <li><a href="#newrelease">New Release</a></li> -->
+                <!-- <li><a href="#trending">Trending </a></li> -->
+                <!-- <li><a href="#comingsoon">Comming Soon</a></li> -->
                 <li><a href="?page=comedy">Comedy</a></li>
                 <li><a href="?page=fantasy">Fantasy</a></li>
                 <li><a href="?page=superhero">SuperHero</a></li>
@@ -38,6 +39,6 @@
     </div>
 
     <div class="footer-bottom">
-        <p>&copy; 2025 SCREEN SAGA. All Rights Reserved.</p>
+        <p>&copy; 2025 SCREEN SAGA. All Rights Reserved. | - BEST CAMILLE T. BAROLA</p>
     </div>
 </footer>

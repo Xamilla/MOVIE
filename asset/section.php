@@ -69,7 +69,7 @@
     </div>
 </section>
 
-<section id="newrelease">
+<!-- <section id="newrelease">
     <h1>New Releases</h1>
     <div class="movie-grid">
         <img src="images/comedy/dear-santa.jpg" alt="Movie 1">
@@ -100,7 +100,7 @@
         <img src="images/superheros/thunderbolts.jpg" alt="Top Rated 4">
         <img src="images/comedy/zootopia-2.jpg" alt="Top Rated 5">
     </div>
-</section>
+</section> -->
 
 <!-- this can be optional because  I already put some about as in the footer -->
 <section id="aboutus">
@@ -113,7 +113,7 @@
 
         <div class="about-section">
             <h2>Who We Are</h2>
-            <p>Screen Saga is your ultimate destination for movie reviews, trailers, and entertainment news. Since our launch in 2018, we’ve been dedicated to bringing film enthusiasts the latest insights, in-depth analysis, and exclusive updates from the world of cinema.</p>
+            <p>Screen Saga is your ultimate destination for movie reviews, trailers, and entertainment news. Since our launch in 2025, we’ve been dedicated to bringing film enthusiasts the latest insights, in-depth analysis, and exclusive updates from the world of cinema.</p>
         </div>
 
         <div class="about-section">
