@@ -1,11 +1,11 @@
 <?php
-// Start the session
+// Start the session 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 $error = isset($_SESSION['error_msg']) ? $_SESSION['error_msg'] : '';
 
-// direct to the previous page not the login page
+// direct to the previous page not the login page 
 if (!isset($_SESSION['redirect_page'])) {
     $current = $_SERVER['HTTP_REFERER'] ?? 'index.php';
     if (!str_contains($current, 'page=login')) {
@@ -14,6 +14,7 @@ if (!isset($_SESSION['redirect_page'])) {
 }
 $redirect_url = $_SESSION['redirect_url'] ?? 'index.php';
 ?>
+
 <link rel="stylesheet" href="style/login.css">
 <div class="login-container">
     <h1>Login</h1>
@@ -33,6 +34,11 @@ $redirect_url = $_SESSION['redirect_url'] ?? 'index.php';
         <button type="submit" title="login">Login</button>
     </form>
     <div style="font-size: 15px; color:#FF8C42; margin-top:10px;"><?php echo $error; ?></div>
+
+    <!-- Add signup link -->
+    <div class="signup-link">
+        Don't have an account? <a href="index.php?page=signup">Sign Up</a>
+    </div>
 </div>
 
 <script>

@@ -78,4 +78,18 @@ body {
     animation: vibrate 0.2s ease-in-out 2;
     border: 2px solid red !important; /* Highlight in red */
 }
- 
+.signup-link {
+    text-align: center;
+    margin-top: 20px;
+    color: #F7F4E9;
+}
+
+.signup-link a {
+    color: #F9C80E;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}

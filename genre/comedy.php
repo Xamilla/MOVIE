@@ -41,7 +41,6 @@ if (isset($_SESSION['login_in']) && $_SESSION['login_in'] === 'yes') {
                 $summary = !empty($row["movie_summary"]) ? $row["movie_summary"] : "No summary available for this movie.";
                 $picture = !empty($row["movie_picture"]) ? $row["movie_picture"] : "default.jpg";
 
-                // Check if user is logged in and has purchased this movie
                 if (isset($_SESSION['login_in']) && $_SESSION['login_in'] === 'yes') {
                     $user_id = $_SESSION['id'];
                     $purchase_check = "SELECT id FROM purchases WHERE user_id = ? AND movie_id = ? LIMIT 1";

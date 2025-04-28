@@ -38,17 +38,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($password, $user['password'])) {
                 $_SESSION['id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
-                $_SESSION['role'] = $user['role']; // Store role in session
+                $_SESSION['role'] = $user['role']; 
                 $_SESSION['login_in'] = 'yes';
 
                 // Redirect based on role
                 if ($user['role'] === 'admin') {
                     $_SESSION['admin'] = 'yes';
                     unset($_SESSION['redirect_url']);
-                    header("Location: $redirect_url"); // Admin page
+                    header("Location: $redirect_url"); 
                 } else {
                     unset($_SESSION['admin']);
-                    header("Location: $redirect_url"); // User page
+                    header("Location: $redirect_url"); 
                 }
                 exit;
             } else {

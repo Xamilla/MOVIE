@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-include "../MOVIE/database/moviesdb.php";
+require_once "database/moviesdb.php"; // Corrected the path if needed
 
 $movie_db = new Database();
 
@@ -19,21 +19,17 @@ $form_data = [
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get and sanitize form data
     $username = $movie_db->dbconnection->real_escape_string($_POST['username']);
-    $password = $_POST['password']; // Will be hashed later, don't escape
+    $password = $_POST['password'];
     $confirm_password = $_POST['confirm-password'];
     $email = $movie_db->dbconnection->real_escape_string($_POST['email']);
 
-    // Store form data for repopulating the form
     $form_data['username'] = $username;
     $form_data['email'] = $email;
 
-    // Validate passwords match
     if ($password !== $confirm_password) {
         $error_message = "Passwords do not match!";
     } else {
-        // Check if username or email already exists
         $check_query = "SELECT * FROM accounts WHERE username = ? OR email = ?";
         $check_stmt = $movie_db->dbconnection->prepare($check_query);
         $check_stmt->bind_param("ss", $username, $email);
@@ -41,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $check_stmt->get_result();
 
         if ($result->num_rows > 0) {
-            // Check which one exists
             $user = $result->fetch_assoc();
             if ($user['username'] == $username) {
                 $error_message = "Username already taken!";
@@ -49,13 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $error_message = "Email already registered!";
             }
         } else {
-            // Process profile picture upload
+            // Process profile picture
             $profile_picture_path = NULL;
 
             if (isset($_FILES['profile-picture']) && $_FILES['profile-picture']['error'] == 0) {
-                $upload_dir = "../MOVIE/images/profile_pictures/";
+                $upload_dir = "../images/profile_pictures/";
 
-                // Create directory if it doesn't exist
                 if (!is_dir($upload_dir)) {
                     mkdir($upload_dir, 0755, true);
                 }
@@ -63,26 +57,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $file_name = $_FILES['profile-picture']['name'];
                 $file_tmp = $_FILES['profile-picture']['tmp_name'];
                 $file_size = $_FILES['profile-picture']['size'];
-                $file_type = $_FILES['profile-picture']['type'];
 
-                // Get file extension
                 $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
-                // Set restrictions
                 $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
                 $max_file_size = 2 * 1024 * 1024; // 2MB
 
-                // Validate file
                 if (!in_array($file_ext, $allowed_ext)) {
                     $error_message = "Only JPG, JPEG, PNG, and GIF files are allowed!";
                 } elseif ($file_size > $max_file_size) {
                     $error_message = "File size must be less than 2MB!";
                 } else {
-                    // Create unique filename
                     $new_file_name = uniqid('', true) . '.' . $file_ext;
                     $file_path = $upload_dir . $new_file_name;
 
-                    // Upload file
                     if (move_uploaded_file($file_tmp, $file_path)) {
                         $profile_picture_path = $file_path;
                     } else {
@@ -91,23 +78,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
 
-            // If no errors, insert user data
             if (empty($error_message)) {
-                // Hash password for security
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                // Insert user data
                 $insert_query = "INSERT INTO accounts (username, email, password, profile_picture) VALUES (?, ?, ?, ?)";
                 $stmt = $movie_db->dbconnection->prepare($insert_query);
                 $stmt->bind_param("ssss", $username, $email, $hashed_password, $profile_picture_path);
 
                 if ($stmt->execute()) {
-                    // Registration successful
                     $_SESSION['username'] = $username;
                     $_SESSION['user_id'] = $stmt->insert_id;
 
-                    // Redirect to login or dashboard
-                    header("Location: index?page=login");
+                    // ✅ Correct redirect here
+                    header("Location: ../index.php?page=login");
                     exit();
                 } else {
                     $error_message = "Registration failed: " . $movie_db->dbconnection->error;
@@ -116,16 +99,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // If we reach here, there was an error
     $_SESSION['error_signup'] = $error_message;
     $_SESSION['form_data'] = $form_data;
 }
 
-// Get error message from session if it exists
-$error_message = isset($_SESSION['error_signup']) ? $_SESSION['error_signup'] : '';
-$form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : ['username' => '', 'email' => ''];
+// Load previous errors if any
+$error_message = $_SESSION['error_signup'] ?? '';
+$form_data = $_SESSION['form_data'] ?? ['username' => '', 'email' => ''];
 
-// Clear session variables
 unset($_SESSION['error_signup']);
 unset($_SESSION['form_data']);
 ?>
@@ -139,7 +120,6 @@ unset($_SESSION['form_data']);
     <title>Sign Up</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style/signup.css">
-
 </head>
 
 <body>
@@ -184,18 +164,16 @@ unset($_SESSION['form_data']);
                 <p>Or sign up with:</p>
                 <div class="social-buttons">
                     <a href="#" class="social-btn facebook">
-                        <i class="fab fa-facebook-f"></i>
-                        Facebook
+                        <i class="fab fa-facebook-f"></i> Facebook
                     </a>
                     <a href="#" class="social-btn google">
-                        <i class="fab fa-google"></i>
-                        Google
+                        <i class="fab fa-google"></i> Google
                     </a>
                 </div>
             </div>
 
             <div class="login-link">
-                Already have an account? <a href="login.php">Log In</a>
+                Already have an account? <a href="../MOVIE/index.php?page=login">Log In</a>
             </div>
         </form>
     </div>
